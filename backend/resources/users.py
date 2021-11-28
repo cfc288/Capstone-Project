@@ -14,6 +14,9 @@ users = Blueprint('users', 'users')
 def test_user_resource():
     return "user resource works"
 
+
+
+# register route
 @users.route('/register', methods=['POST'])
 def register():
     # this interm step analogous to making sure we can log req.body in express
@@ -26,32 +29,22 @@ def register():
     payload['username'] = payload['username'].lower()
     print(payload)
 
-
-    
-
     # see if the user exists
     try:
-        # .get is nice --  http://docs.peewee-orm.com/en/latest/peewee/querying.html#selecting-a-single-record
         models.User.get(models.User.email == payload['email'])
         # this will throw and error ("models.DoesNotExist exception")
 
-        # extra challenge -- make it so that this code also prevents
-        # duplicate usernames
-
+        # extra -- make it so that this code also prevents duplicate usernames
         # if we get this error, the user is not found ("DoesNotExist"),
-        # this is a good thing! It means we can go ahead and create them
-        # i.e. if the above line didn't throw an error/exception then we got this far,
-        # meaning the email is taken
-
         # response: "user with that email already exists"
         return jsonify(
             data={},
             message=f"A user with the email {payload['email']} already exists",
             status=401
         ), 401
-    except models.DoesNotExist: # except is like a catch in JS
+    except models.DoesNotExist: 
+        # except is like a catch in JS
         # the user does not exist
-
         # scramble the password with bcrypt
         pw_hash = generate_password_hash(payload['password'])
 
@@ -59,16 +52,18 @@ def register():
         created_user = models.User.create(
             username=payload['username'],
             email=payload['email'],
-            password=pw_hash
+            password=pw_hash,
+            company=payload['company'],
+            location=payload['location'],
+            employee_title=payload['employee_title'],
         )
 
-        # print(created_user)
+        print('created_user', created_user)
 
         # this is where we will actually use flask-login
         # this "logs in" the user and starts a session
         # https://flask-login.readthedocs.io/en/latest/#login-example
         login_user(created_user)
-
 
         # respond with the new object and success message
         created_user_dict = model_to_dict(created_user)
@@ -87,6 +82,8 @@ def register():
             status=201
         ), 201
 
+
+# LOGIN ROUTE
 @users.route('/login', methods=['POST'])
 def login():
     payload = request.get_json()
@@ -148,8 +145,6 @@ def login():
 #this is what setting up user_loader in app.py allowed us to do
 @users.route('/logged_in_user', methods=['GET'])
 def get_logged_inuser():
-    
-
     #check to make sure user is authenticated
     if not current_user.is_authenticated:
         return jsonify(
@@ -173,13 +168,8 @@ def get_logged_inuser():
         ), 200
 
 
-# we need a logout route
-#the session persists (ie user is still logged in) even after restarting the server 
 
-# you can read about more in the flask doc
-
-
-
+#LOGOUT ROUTE
 @users.route('/logout', methods=['GET'])
 def logout():
 
