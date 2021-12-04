@@ -35,9 +35,16 @@ class Client(Model):
 ####################################################
 
 class Incident(Model):
-    employee_data_ref = ForeignKeyField(User, backref='employeee_info')
+    employee_data_ref = ForeignKeyField(User, backref='reports_under_client')
+    #change to employee_ref
+
+    # employee_company = ForeignKeyField(User, backref='employeee_company_reports')
+
+    # employee_location = ForeignKeyField(User, backref='employeee_location_reports')
+
+    # employee_title = ForeignKeyField(User, backref='emlpoyee_title_reports')
     
-    client_referrence = ForeignKeyField(Client, backref='reports')
+    client_referrence = ForeignKeyField(Client, backref='client_ref')
     
 
     incident_event = CharField()
@@ -46,12 +53,8 @@ class Incident(Model):
 
 
     # owner = ForeignKeyField(User, backref='dogs')
-
     # # this ForeignKeyField will let us go some_dog.owner to get user that owns this dog
-
     #     #the backref will let us go some_user.dogs to get a list of dogs owner by that user
-
-
 
 
     class Meta:
