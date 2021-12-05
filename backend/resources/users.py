@@ -55,8 +55,8 @@ def register():
             company=payload['company'],
             location=payload['location'],
             employee_title=payload['employee_title'],
-            # is_employee=payload['is_employee'],
-            # is_client=payload['is_client']
+            is_employee=payload['is_employee'],
+            is_client=payload['is_client']
         )
 
         print('created_user', created_user)

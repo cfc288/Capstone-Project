@@ -17,10 +17,8 @@ class User(UserMixin, Model):
     company = CharField()
     location = CharField()
     employee_title = CharField()
-    # is_employee = BooleanField(default=False)
-    # is_client=BooleanField(default=False)
-
-
+    is_employee = BooleanField(default=False)
+    is_client=BooleanField(default=False)
 
     class Meta:
         database = DATABASE 
@@ -31,8 +29,6 @@ class Client(Model):
 
     class Meta:
         database = DATABASE
-# def initialize():
-#     DATABASE.connect()
 ####################################################
 
 class Incident(Model):
@@ -68,8 +64,7 @@ class Messages(Model):
 
     class Meta:
         database = DATABASE 
-# def initialize():
-#     DATABASE.connect() 
+
 ######################################################
 # class Redemption(Model):
 #     sender = CharField(unique=True)
