@@ -59,7 +59,7 @@ def create_client():
 
 
 # SHOW ROUTE
-# for each client/by id
+# Get one client/by id
 # GET api/v1/clients/ <client_id> 
 #in express it lookes like: router.get('/:id')
 @clients.route('/<id>', methods=['GET'])

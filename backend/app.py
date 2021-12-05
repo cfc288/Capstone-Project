@@ -1,10 +1,15 @@
 from flask import Flask, jsonify
+# from flask_admin import Admin
+# from flask_sqlalchemy import SQLAlchemy
+
+
+
 
 #from resources.dogs import dogs # import blueprint from resources.dogs
 from resources.users import users
 from resources.clients import clients
 from resources.incidents import incidents
-# from resources.messages import messages
+from resources.messages import messages
 
 # from resources.redemption import redemption
 
@@ -70,14 +75,15 @@ def unauthorized():
 CORS(clients, origins=['http://localhost:3000'], supports_credentials=True)
 CORS(users, origins=['http://localhost:3000'], supports_credentials=True)
 CORS(incidents, origins=['http://localhost:3000'], supports_credentials=True)
-# CORS(messages, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(messages, origins=['http://localhost:3000'], supports_credentials=True)
 
 # CORS(redemption, origins=['http://localhost:3000'], supports_credentials=True)
 
 app.register_blueprint(clients, url_prefix='/api/v1/clients')
 app.register_blueprint(users, url_prefix='/api/v1/users')
 app.register_blueprint(incidents, url_prefix='/api/v1/incidents')
-# app.register_blueprint(messages, url_prefix='/api/v1/messages')
+app.register_blueprint(messages, url_prefix='/api/v1/messages')
+#app.register_blueprint(messages, url_prefix='/api/v1/messages')
 
 
 

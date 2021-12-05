@@ -1,4 +1,8 @@
+# import re
 import models
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, json, request, jsonify
+from flask_bcrypt import generate_password_hash, check_password_hash
+                        
 from playhouse.shortcuts import model_to_dict
-from flask_login import current_user, login_required
+from flask_login import login_user, current_user, logout_user
+

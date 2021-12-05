@@ -33,7 +33,7 @@ def main_incidents_index():
 #@login_required
 def index_per_user():
     # result = models.Incident.select()
-    current_user_incident_dicts = [model_to_dict(incident) for incident in current_user.reports_under_client]
+    current_user_incident_dicts = [model_to_dict(incident) for incident in current_user.employee_ref]
 
     for incident_dict in current_user_incident_dicts:
         print('incident_dict (in /allreportsperuser): ', incident_dict)
@@ -138,7 +138,7 @@ def create_incident(id):
             message='Successfully created incident!',
             status=201
         ), 201
-        #"you hit the create route -- check terminal"
+
     except models.DoesNotExist:
         print('client not found')
 
