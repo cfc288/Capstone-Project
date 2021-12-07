@@ -1,20 +1,28 @@
 from flask import Flask, jsonify
-# from flask_admin import Admin
-# from flask_sqlalchemy import SQLAlchemy
+from flask_admin import Admin
+import flask_admin
+from flask_sqlalchemy import SQLAlchemy
+from flask_admin.contrib.sqla import ModelView
+from peewee import *
+from peewee import _StringField
+from flask import Flask, render_template
+from flask_basicauth import BasicAuth
 
 
 
-
-#from resources.dogs import dogs # import blueprint from resources.dogs
 from resources.users import users
 from resources.clients import clients
 from resources.incidents import incidents
 from resources.messages import messages
 
-# from resources.redemption import redemption
+# from resources.redemption import redemption?
 
 
 import models
+
+# from models import User
+from flask_login import UserMixin
+from peewee import _StringField
 
 from flask_cors import CORS
 
@@ -31,6 +39,7 @@ PORT=8000
 
 app = Flask(__name__)
 
+app.config['SECRET_KEY'] = 'mysecret'
 
 
 app.secret_key = os.environ.get("FLASK_APP_SECRET")
@@ -39,8 +48,19 @@ print('Flask app secret:  ', os.environ.get("FLASK_APP_SECRET"))
 #2 -> instantiate the loginManager to actually get a login_manager
 login_manager = LoginManager()
 
+
+
 #3 -> actually connect the app with the login_manager
 login_manager.init_app(app) 
+
+
+
+# app.config['FLASK_ADMIN_SWATCH'] = 'cerulean'
+
+# admin.add_view(ModelView(Person, db.session))
+
+
+# admin.add_view(ModelView(User, db.session))
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -76,7 +96,6 @@ CORS(clients, origins=['http://localhost:3000'], supports_credentials=True)
 CORS(users, origins=['http://localhost:3000'], supports_credentials=True)
 CORS(incidents, origins=['http://localhost:3000'], supports_credentials=True)
 CORS(messages, origins=['http://localhost:3000'], supports_credentials=True)
-
 # CORS(redemption, origins=['http://localhost:3000'], supports_credentials=True)
 
 app.register_blueprint(clients, url_prefix='/api/v1/clients')

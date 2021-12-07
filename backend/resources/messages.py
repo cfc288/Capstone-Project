@@ -11,7 +11,7 @@ messages = Blueprint('messages', 'messages')
 # GET route
 #this returns all the incidents no matter who the user/client is
 @messages.route('/', methods=['GET'])
-#@login_required
+@login_required
 def main_index():
     result = models.Messages.select()
 
@@ -29,7 +29,7 @@ def main_index():
 
 #GET messages route for per user
 @messages.route('/allmessagesperuser', methods=['GET'])
-#@login_required
+@login_required
 def index_per_user_messages():
     
     current_user_message_dicts = [model_to_dict(incident) for incident in current_user.sender]
@@ -61,7 +61,7 @@ def index_per_user_messages():
 # #note for this route needs the trailing slash (/)
 @messages.route('/newmessage/reciever/<id>', methods=['POST'])
 #(in form on front end have dropdown of all clients and ref client and put into url)
-#@login_required
+@login_required
 def create_message(id):
     payload = request.get_json()
 
@@ -119,7 +119,7 @@ def create_message(id):
 #DELETE route
 
 @messages.route('/<id>', methods=['Delete'])
-#@login_required
+@login_required
 def delete_message(id):
     print('*message id', id)
     #we are trying to delete the dog with the id that comes through a param

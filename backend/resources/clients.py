@@ -9,6 +9,7 @@ clients = Blueprint('clients', 'clients')
 # GET ROUTE
 #this returns all the clients
 @clients.route('/', methods=['GET'])
+@login_required
 def client_index():
     result = models.Client.select()
     print('result = models.Client.select(): ', result)
@@ -27,7 +28,7 @@ def client_index():
 
 # CREATE ROUTE
 @clients.route('/', methods=['POST'])
-#@login_required
+@login_required
 def create_client():
     payload = request.get_json()
     print('payload = request.get_json(), payload: ', payload) # you should see request body in your terminal 
@@ -63,7 +64,7 @@ def create_client():
 # GET api/v1/clients/ <client_id> 
 #in express it lookes like: router.get('/:id')
 @clients.route('/<id>', methods=['GET'])
-#@login_required
+@login_required
 def get_one_clients(id):
     client = models.Client.get_by_id(id)
     print('client = models.Client.get_by_id(id): ', client)
@@ -93,7 +94,7 @@ def update_client(id):
 # Delete /Destroy
 #Delete api/v1/dogs/<id>
 @clients.route('/<id>', methods=['Delete'])
-#@login_required
+@login_required
 def delete_client(id):
     print('*client id', id)
     #we are trying to delete the dog with the id that comes through a param

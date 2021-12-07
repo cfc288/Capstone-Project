@@ -1,14 +1,29 @@
 from peewee import *
 import datetime
-
+# from flask import Flask, jsonify
+# from flask_admin import Admin
+# from flask_sqlalchemy import SQLAlchemy
+# from flask_admin.contrib.sqla import ModelView
+# from peewee import *
+# from peewee import _StringField
+# from flask import Flask, render_template
+# from flask_basicauth import BasicAuth
+# from app import app
 
 
 #login/logout
 # see docs--> flask-login.readthedocs.io/en/latest/
 from flask_login import UserMixin
+#from peewee import _StringField
 
 DATABASE = SqliteDatabase('kelperDB.sqlite')
 
+
+# db = SQLAlchemy(app)
+
+# admin = Admin(app)
+
+# admin.add_view(ModelView(Client, db.session))
 ######################################################
 class User(UserMixin, Model):
     username = CharField(unique=True)
@@ -19,9 +34,12 @@ class User(UserMixin, Model):
     employee_title = CharField()
     is_employee = BooleanField(default=False)
     is_client=BooleanField(default=False)
+    is_admin=BooleanField(default=False)
 
     class Meta:
         database = DATABASE 
+
+
 ####################################################
 class Client(Model):
     name = CharField()
@@ -29,6 +47,8 @@ class Client(Model):
 
     class Meta:
         database = DATABASE
+
+
 ####################################################
 
 class Incident(Model):
@@ -44,7 +64,7 @@ class Incident(Model):
 
     created_at = DateTimeField(default=datetime.datetime.now)
 
-    # flagged_for_review = BooleanField(null = False)
+    flagged_for_review = BooleanField(default=False)
     # owner = ForeignKeyField(User, backref='dogs')
     # # this ForeignKeyField will let us go some_dog.owner to get user that owns this dog
     #     #the backref will let us go some_user.dogs to get a list of dogs owner by that user
@@ -65,18 +85,26 @@ class Messages(Model):
     class Meta:
         database = DATABASE 
 
-######################################################
-# class Redemption(Model):
-#     sender = CharField(unique=True)
-#     reciever = CharField(unique=True)
-#     message = CharField()
-#   #???  inbox = CharField() 
+##############################################
+
+
+# db = SQLAlchemy()
+
+# admin = Admin()
+
+
+# class Person(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.String(30))
+
+
 
 
 
 #     class Meta:
-#         database = DATABASE 
+#             database = DATABASE 
 
+# admin.add_view(ModelView(Person, db.session))
 
 ######################################################
 def initialize():

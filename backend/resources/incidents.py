@@ -13,7 +13,7 @@ incidents = Blueprint('incidents', 'incidents')
 # GET route
 #this returns all the incidents no matter who the user/client is
 @incidents.route('/', methods=['GET'])
-#@login_required
+@login_required
 def main_incidents_index():
     result = models.Incident.select()
 
@@ -30,7 +30,7 @@ def main_incidents_index():
 
 #GET route for per user
 @incidents.route('/allreportsperuser', methods=['GET'])
-#@login_required
+@login_required
 def index_per_user():
     # result = models.Incident.select()
     current_user_incident_dicts = [model_to_dict(incident) for incident in current_user.employee_ref]
@@ -52,7 +52,7 @@ def index_per_user():
 
 #GET route for per client
 @incidents.route('/allreportsperclient/<id>', methods=['GET'])
-#@login_required
+@login_required
 def index_per_client(id):
     # result = models.Incident.get client ref - client id()
     # client = models.Client.get_by_id(id)
@@ -107,18 +107,21 @@ def index_per_client(id):
 # #note for this route needs the trailing slash (/)
 @incidents.route('/newincident/client/<id>', methods=['POST'])
 #(in form on front end have dropdown of all clients and ref client and put into url)
-#@login_required
+@login_required
 def create_incident(id):
     payload = request.get_json()
 
     print('payload in POST route: ', payload) # you should see request body in your terminal 
     # current_client = models.Client.select('name')
-    # how do you attatch Client to incident report? current???
+
     try:
         client = models.Client.get_by_id(id)
         #checks for id
         print('model_to_dict(client):', model_to_dict(client))
-        new_incident = models.Incident.create(incident_event=payload['incident_event'], employee_data_ref=current_user.id, client_referrence=client.id )
+
+        new_incident = models.Incident.create(incident_event=payload['incident_event'], employee_data_ref=current_user.id, client_referrence=client.id, flagged_for_review=payload['flagged_for_review'] )
+
+
         print('new_incident under POST/incidents: ', new_incident)# just prints the ID -- check sqlite3 to see the data
                     # run sqlite3 dogs.sqlite and run SQL queries in the CLI
 
@@ -155,7 +158,7 @@ def create_incident(id):
 #
 
 @incidents.route('/<id>', methods=['Delete'])
-#@login_required
+@login_required
 def delete_client(id):
     print('*incident id', id)
     #we are trying to delete the dog with the id that comes through a param
