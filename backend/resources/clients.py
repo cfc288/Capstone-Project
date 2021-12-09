@@ -17,7 +17,7 @@ def client_index():
     client_dicts = [model_to_dict(client) for client in result]
     # for client_dict in client_dicts:
     #     client_dict['owner'].pop('password')
-        
+    print('client_dict', client_dicts)
     return jsonify({
     'data' : client_dicts, 
     'message' : f'Successfully found {len(client_dicts)} client(s)',

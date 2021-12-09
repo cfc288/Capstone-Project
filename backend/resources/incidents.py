@@ -20,6 +20,7 @@ def main_incidents_index():
     incident_dicts = [model_to_dict(incident) for incident in result]
     for incident_dict in incident_dicts:
         incident_dict['employee_data_ref'].pop('password')
+    print('incident_dicts', incident_dict)
     return jsonify({
     'data' : incident_dicts, 
     'message' : f'Successfully found {len(incident_dicts)} incident reports',

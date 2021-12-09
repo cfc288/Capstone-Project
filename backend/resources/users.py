@@ -21,12 +21,10 @@ def register():
     # this interm step analogous to making sure we can log req.body in express
     # note: we had to send JSON from postman (choose raw, select JSON from the drop menu, type a perfect JSON object with double quotes around keys)
     payload = request.get_json()
-    print('request.get_json(): ', request.get_json())
-
-
+    # print('request.get_json(): ', request.get_json())
     payload['email'] = payload['email'].lower()
     payload['username'] = payload['username'].lower()
-    print(payload)
+    # print(payload)
 
     # see if the user exists
     try:
@@ -54,9 +52,10 @@ def register():
             password=pw_hash,
             company=payload['company'],
             location=payload['location'],
-            employee_title=payload['employee_title'],
-            is_employee=payload['is_employee'],
-            is_client=payload['is_client']
+            employee_title=payload['employeeTitle'],
+            is_employee=payload['isEmployee'],
+            is_client=payload['isClient'],
+            is_admin=payload['isAdmin']
         )
 
         print('created_user', created_user)
@@ -90,6 +89,13 @@ def login():
     payload = request.get_json()
     payload['email'] = payload['email'].lower()
     payload['username'] = payload['username'].lower()
+    # payload['company'] = payload['company']
+    # payload['location'] = payload['location']
+    # payload['employee_title'] = payload['employee_title']
+    # payload['is_employee'] = payload['is_employee']
+    # payload['is_client'] = payload['is_client']
+    # payload['is_admin'] = payload['is_admin']
+
 
 
     # look up the user by email
@@ -145,7 +151,7 @@ def login():
 #it will shows us who is logged in, and we can now access that information via current_user
 #this is what setting up user_loader in app.py allowed us to do
 @users.route('/logged_in_user', methods=['GET'])
-def get_logged_inuser():
+def get_logged_in_user():
     #check to make sure user is authenticated
     if not current_user.is_authenticated:
         return jsonify(

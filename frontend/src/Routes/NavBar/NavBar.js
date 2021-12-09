@@ -7,7 +7,7 @@ function NavBar(){
 return(
     <ul>
           <li>
-          <Link to="/home">Home</Link>
+          <Link to="/">Home</Link>
           </li>
           ||
           <li>
@@ -15,13 +15,10 @@ return(
           </li>
           ||
           <li>
-            <Link to="/login">Login</Link>
+            <Link to="/inbox">Inbox</Link>
           </li>
           ||
-          <li>
-            <Link to="/register">Register</Link>
-          </li>
-          
+         
     </ul>
 )
 }

@@ -1,22 +1,48 @@
-import React, { Component, useState } from 'react'
+import React, { Component, useState, useEffect } from 'react'
 import Register from '../Register/register'
 import ReactModal from 'react-modal';
 
 
-import {
-    BrowserRouter as Router,
-    Switch,
-    Link
-  } from "react-router-dom";
-import { Routes ,Route } from 'react-router-dom';
+const baseUrl = 'http://localhost:8000/api/v1/users'
+
+function Login (props){
+    
+    const [display, setDisplay] = useState(false)
+    const openModal = () => {
+        setDisplay(true)
+      }
+    const closeModal =() => {
+    setDisplay(false)
+    }
 
 
+    const[email, setEmail] = useState('')
+    const[username, setUsername] = useState('')
+    const[password, setPassword] = useState('')
 
-function Login () {
 
-    const [showModalLogin, setModal] = useState(false)
-    const showModal = () => {
-        setModal(true)
+    const fetchLogin = (e) => {
+        e.preventDefault()
+        const user = {email, password, username}
+
+        fetch(baseUrl + '/login', {
+            method: 'Post',
+            body: JSON.stringify(user),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            if (data.status === 200) {
+                setEmail('')
+                setUsername('')
+                setPassword('')
+                props.logIn(data.data)
+            }
+        })
     }
 
 
@@ -24,40 +50,47 @@ function Login () {
 
 
 
-    return (
-        <div>
-            <h1> Login/Register </h1>
+
+    
+
+    
+        return (
+            <div>
+                <h1> Login/Register Modal</h1>
+
+                
+                <form onSubmit={fetchLogin}>
+                    <label >
+                        Username:
+                    </label>
+                    <input type='text' id='name' name='name' onChange={(e) => setUsername(e.target.value)} value={username} placeholder='Username'/>
+                    <br />
+                    <label >
+                        Email:
+                    </label>
+                    <input id="email" type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email"/>
+                    <br />
+                    <label >
+                        Password:
+                    </label>
+                    <input type='text' id='password' name='password' onChange={(e) => setPassword(e.target.value)} value={password} placeholder='Password'/>
+                    <br />
+                    <input type="submit" value="Log In"/><br />
+
+                </form>
+                <br />
+                <br />
+                <br />
+                
 
 
-            <title> Login </title>
-            
-            <form >
-                <label >
-                    username:
-                </label>
-                <input type='text' id='name' name='name' onChange={ (event) => this.handleChange(event)} value={this.state.username}/>
-                <label >
-                    email:
-                </label>
-                <input type='text' id='email' name='email' onChange={ (event) => this.handleChange(event)} value={this.state.email}/>
-                <label >
-                    password:
-                </label>
-                <input type='text' id='password' name='password' onChange={ (event) => this.handleChange(event)} value={this.state.password}/>
-            </form>
-           
+                
+            </div>
 
-            <ReactModal isOpen={showModal} >
-                <h2> New User? </h2>
-                <h3> Register Here </h3>
-                <Register />
-            </ReactModal>
-
-
-            
-        </div>
-
-    )
+        )
+    
+    
 }
+
 
 export default Login
