@@ -54,12 +54,9 @@ class Client(Model):
 class Incident(Model):
     
     employee_data_ref = ForeignKeyField(User, backref='employee_ref')
-    #change to employee_ref
-
 
     client_referrence = ForeignKeyField(Client, backref='client_ref')
     
-
     incident_event = CharField()
 
     created_at = DateTimeField(default=datetime.datetime.now)

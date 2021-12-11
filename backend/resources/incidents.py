@@ -89,21 +89,58 @@ def index_per_client(id):
 
 
 ################
+#POST route
+#new_dog = models.Dog.create(name=payload['name'], owner=current_user.id, breed=payload['breed'])
+#defineds owner=payload['owner'], returns user name to front end......
+# employee info???
+# user_employee_company
+# user_employee_location
+# user_employee_title
+# client_name
 
 
 
-    #POST route
-    #new_dog = models.Dog.create(name=payload['name'], owner=current_user.id, breed=payload['breed'])
-    #defineds owner=payload['owner'], returns user name to front end......
-    # employee info???
-    # user_employee_company
-    # user_employee_location
-    # user_employee_title
-    # client_name
+# #update route?
+# #PUT /api/v1/dogs/
+# #note for this route needs the trailing slash (/)
+# @incidents.route('/', methods=['POST'])
+# @login_required
+# def create_dog():
+#     payload = request.get_json()
+#     print(payload) # you should see request body in your terminal 
+#     new_message = models.Messages.create(incident=payload['incident_event'], employee_ref=current_user.id, 
+#     #client=  , flagged_for_review=
+#     )
+#     print(new_message)# just prints the ID -- check sqlite3 to see the data
+#                    # run sqlite3 dogs.sqlite and run SQL queries in the CLI
+
+#     #print(new_dog.__dict__)
+#     # this might be useful, sometimes it gives you better info
+#     # dict is a class attribute automatically added to python class
+
+#     #print(dir(new_dog)) # look at all of this models' stuff and the pretty methods!!
+
+#     # you can't jsonify new_dog directly because it's not a dictionary or
+#     # other jsonifiable things
+#     # so when we get this error TypeError: Object of type Dog is not JSON serializable
+#     # when we try to jsonify
+#     # to convert the ... wait for it... model to a dict
+
+#     message_dict = model_to_dict(new_message)
+#     #this converts the model to a dict 
+#     message_dict['sender'].pop('password')
+# #dog_dict['owner'].pop('password') takes out the password from returning in the console (for better security) 
+
+#     return jsonify(
+#         data=message_dict,
+#         message='Successfully updated incident!',
+#         status=201
+#     ), 201
+
 
 ######################################
 
-# #CREATE an 'incident' route
+# #CREATE/ and or update? an 'incident' route
 # #POST /api/v1/incidents/
 # #note for this route needs the trailing slash (/)
 @incidents.route('/newincident/client/<id>', methods=['POST'])
@@ -120,7 +157,7 @@ def create_incident(id):
         #checks for id
         print('model_to_dict(client):', model_to_dict(client))
 
-        new_incident = models.Incident.create(incident_event=payload['incident_event'], employee_data_ref=current_user.id, client_referrence=client.id, flagged_for_review=payload['flagged_for_review'] )
+        new_incident = models.Incident.create(incident_event=payload['incident_event'], employee_data_ref=current_user.id, client_referrence=client.id)
 
 
         print('new_incident under POST/incidents: ', new_incident)# just prints the ID -- check sqlite3 to see the data

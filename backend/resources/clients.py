@@ -100,6 +100,11 @@ def delete_client(id):
     #we are trying to delete the dog with the id that comes through a param
     delete_query = models.Client.delete().where(models.Client.id == id)
     nums_of_rows_deleted = delete_query.execute()
+
+    #delete all reports with client
+    delete_query_incidents = models.Incident.delete().where(id == models.Incident.client_referrence)
+    nums_of_rows_deleted = delete_query_incidents.execute()
+
     print('nums_of_rows_deleted = delete_query.execute()', nums_of_rows_deleted)
 
     return jsonify(

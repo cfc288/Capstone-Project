@@ -10,7 +10,8 @@ import Register from './Register/register';
 
 
 function App(props){
-//props isLoggedIn
+//logIn={logIn}  
+//isLoggedIn={isLoggedIn}
 
 
 const [activeUser, setActiveUser] = useState({})

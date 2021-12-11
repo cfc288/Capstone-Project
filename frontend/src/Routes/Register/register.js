@@ -5,13 +5,16 @@ import ReactModal from 'react-modal';
 const baseUrl = 'http://localhost:8000/api/v1/users'
 
 export default function Register(props) {
-	const [username, setUsername] = useState('')
-	const [email, setEmail] = useState('')
-	const [password, setPassword] = useState('')
+	const [newUsername, setUsername] = useState('')
+	const [newEmail, setEmail] = useState('')
+	const [newPassword, setPassword] = useState('')
 
-    const [location, setLocation] = useState('')
-    const [company, setCompany] = useState('')
-    const [employeeTitle, setTitle] = useState('')
+    const [newLocation, setLocation] = useState('')
+    const [newCompany, setCompany] = useState('')
+    const [newEmployeeTitle, setTitle] = useState('')
+    const [isEmployee, setIsEmployee] = useState(false)
+    const [isClient, setIsClient] = useState(false)
+    //const [isClient, setIsClient] = useState(false)
 
 
 
@@ -36,9 +39,19 @@ export default function Register(props) {
 
 
 
-	const fetchRegister = (e) => {
+	const registerEmployee = (e) => {
 		e.preventDefault()
-		const newUser = {username, email, password, company, location, employeeTitle}
+		const newUser = {
+            username: newUsername, 
+            email: newEmail, 
+            password: newPassword, 
+            company: newCompany, 
+            location: newLocation, 
+            employeeTitle: newEmployeeTitle,
+            isAdmin:false,
+            isClient: false,
+            isEmployee: true}
+            console.log(newUser)
         console.log('baseURL for register', baseUrl + '/register')
 		fetch(baseUrl + '/register', {
 			method: 'POST',
@@ -59,6 +72,43 @@ export default function Register(props) {
                 setCompany('')
                 setLocation('')
                 setTitle('')
+                setIsEmployee(true)
+				props.logIn(data.data)
+			}
+		})
+	}
+
+    const registerClient = (e) => {
+		e.preventDefault()
+		const newUser = {
+            username: newUsername, 
+            email: newEmail, 
+            password: newPassword,  
+            location: newLocation,
+            isClient: true,
+            isAdmin:false,
+            isEmployee: false }
+        console.log('baseURL for register', baseUrl + '/register')
+		fetch(baseUrl + '/register', {
+			method: 'POST',
+			body: JSON.stringify(newUser),
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include'
+		})
+		.then(res => res.json())
+		.then(data => {
+			if (data.status === 201) {
+				console.log('data', data)
+				console.log('props', props)
+				setUsername('')
+				setEmail('')
+				setPassword('')
+                setCompany('none')
+                setLocation('')
+                setTitle('none')
+                setIsClient(true)
 				props.logIn(data.data)
 			}
 		})
@@ -71,18 +121,18 @@ export default function Register(props) {
             <button onClick={openModal}>For employees </button>
             < ReactModal
                 isOpen={display}>
-                <form onSubmit={fetchRegister}>
-                    <input id="username" type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username"/><br />
+                <form onSubmit={registerEmployee}>
+                    <input id="username" type="text" value={newUsername} onChange={(e) => setUsername(e.target.value)} placeholder="Username"/><br />
                     
-                    <input id="email" type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email"/><br />
+                    <input id="email" type="email" name="email" value={newEmail} onChange={(e) => setEmail(e.target.value)} placeholder="Email"/><br />
                    
-                    <input id="password" type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password"/><br />
+                    <input id="password" type="password" name="password" value={newPassword} onChange={(e) => setPassword(e.target.value)} placeholder="Password"/><br />
 
-                    <input id="location" type="location" name="location" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="Location"/><br />
+                    <input id="location" type="location" name="location" value={newLocation} onChange={(e) => setLocation(e.target.value)} placeholder="Location"/><br />
 
-                    <input id="company" type="company" name="company" value={company} onChange={(e) => setCompany(e.target.value)} placeholder="Company"/><br />
+                    <input id="company" type="company" name="company" value={newCompany} onChange={(e) => setCompany(e.target.value)} placeholder="Company"/><br />
 
-                    <input id="employee_title" type="employeeTitle" name="employeeTitle" value={employeeTitle} onChange={(e) => setTitle(e.target.value)} placeholder="Your Title of Employement ie: Manager "/><br />
+                    <input id="employee_title" type="employeeTitle" name="employeeTitle" value={newEmployeeTitle} onChange={(e) => setTitle(e.target.value)} placeholder="Your Title of Employement ie: Manager "/><br />
 
 
                     <input type="submit" value="Register"/><br />
@@ -94,14 +144,14 @@ export default function Register(props) {
             <button onClick={openNewModal}>For Clients </button>
             < ReactModal
                 isOpen={newDisplay}>
-                <form onSubmit={fetchRegister}>
-                    <input id="username" type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username"/><br />
+                <form onSubmit={registerClient}>
+                    <input id="username" type="text" value={newUsername} onChange={(e) => setUsername(e.target.value)} placeholder="Username"/><br />
                     
-                    <input id="email" type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email"/><br />
+                    <input id="email" type="email" name="email" value={newEmail} onChange={(e) => setEmail(e.target.value)} placeholder="Email"/><br />
                     
-                    <input id="password" type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password"/><br />
+                    <input id="password" type="password" name="password" value={newPassword} onChange={(e) => setPassword(e.target.value)} placeholder="Password"/><br />
 
-                    <input id="location" type="location" name="location" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="Location"/><br />
+                    <input id="location" type="location" name="location" value={newLocation} onChange={(e) => setLocation(e.target.value)} placeholder="Location"/><br />
 
                     <input type="submit" value="Register"/><br />
                 </form>

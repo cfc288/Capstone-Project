@@ -41,7 +41,7 @@ function Check(props){
                     isLoggedIn ? 
                     <div>
                     <NavBar />
-                    <Main user={activeUser} logIn={logIn} isLoggedIn={isLoggedIn} /> 
+                    <Main user={activeUser} isLoggedIn={isLoggedIn}/> 
                     </div>
 
                     
@@ -53,7 +53,7 @@ function Check(props){
                         <Routes> 
                             <Route path='/()' />
                             <Route path='/about' element={<About />} />
-                            <Route path='/inbox' element={<Inbox />} />
+                            <Route path='/inbox' element={<Inbox user={activeUser} />} />
                         </Routes>
                 </div>
 

@@ -6,7 +6,8 @@ import ReactModal from 'react-modal';
 const baseUrl = 'http://localhost:8000/api/v1/users'
 
 function Login (props){
-    
+    //logIn={props.logIn}
+
     const [display, setDisplay] = useState(false)
     const openModal = () => {
         setDisplay(true)

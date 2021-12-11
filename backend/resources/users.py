@@ -9,9 +9,9 @@ from flask_login import login_user, current_user, logout_user
 users = Blueprint('users', 'users')
 
 
-@users.route('/', methods=['GET'])
-def test_user_resource():
-    return "user resource works"
+# @users.route('/', methods=['GET'])
+# def test_user_resource():
+#     return "user resource works"
 
 
 
@@ -187,3 +187,23 @@ def logout():
         message="Successfully logged out.",
         status=200
     ), 200
+
+
+
+
+ #GET all users
+@users.route('/', methods=['GET'])
+#@login_required
+def client_index():
+    result = models.User.select()
+    print('result = models.User.select(): ', result)
+
+    user_dicts = [model_to_dict(user) for user in result]
+    # for client_dict in client_dicts:
+    #     client_dict['owner'].pop('password')
+    print('client_dict', user_dicts)
+    return jsonify({
+    'data' : user_dicts, 
+    'message' : f'Successfully found {len(user_dicts)} client(s)',
+    'status': 200
+    })  

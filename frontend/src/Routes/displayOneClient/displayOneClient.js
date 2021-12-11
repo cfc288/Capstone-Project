@@ -27,36 +27,11 @@ export default function DisplayOneClient(props) {
       }, [])
 
 
-    // const addNewReport = (event) => {
-    //     event.preventDefault()
-        
-    //     const newReport = {
-    //       name: newName,
-    //       breed: newBreed
-    //     }
-    
-    //     fetch(baseUrl + '/', {
-    //       method: 'POST',
-    //       body: JSON.stringify(newDog),
-    //       headers: {
-    //         'Content-Type': 'application/json'
-    //       },
-    //       credentials: 'include'
-    //     })
-    //     .then(res => res.json())
-    //     .then(data => {
-    //       if (data.status === 201) {
-    //         setDogs([...dogs, data.data])
-    //         setNewName('')
-    //         setNewBreed('')
-    //         console.log(data.message)
-    //       } else {
-    //         console.log('Dog creation was unsuccessful. D=')
-    //       }
-    //     })
-    //   }
+   
 
-
+//create
+//deleteOne
+//edit/update
 
 
 
@@ -91,8 +66,8 @@ export default function DisplayOneClient(props) {
 						<td>Date Report Created</td>
 						<td>Location</td> ||
 						<td>Company</td> ||
-                        <td>EmployeeTitle</td> ||
-                        <td>Incident Report</td> ||
+            <td>EmployeeTitle</td> ||
+            <td>Incident Report</td> ||
 						<td>Delete</td>
 					</tr>
                     

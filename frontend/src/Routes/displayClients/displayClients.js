@@ -5,8 +5,12 @@ import DisplayOneClient from '../displayOneClient/displayOneClient';
 import { Routes, Route, Link } from "react-router-dom";
 
 export default function DisplayClients(props) {
-	console.log('clients on render', props.clients)
+    //clients={incidents}
+	console.log('clients.legnth on displayClients', props.clients)
+    console.log('incidents.legnth on displayClients', props.incidents)
+    console.log('user on displayClients', props.user)
 
+    
 
     const [display, setDisplay] = useState(false)
     const openModal = () => {
@@ -18,7 +22,7 @@ export default function DisplayClients(props) {
 
 	return(
 		<div >
-            <button> New client </button>
+            
 			<table>
 				<thead>
 					<tr>
@@ -26,13 +30,12 @@ export default function DisplayClients(props) {
 						<td>Location</td> ||
 						<td>Company</td> ||
                         <td>EmployeeTitle</td> ||
-                        <td>Incident Report </td> ||
 						<td>Delete</td>
 					</tr>
 				</thead>
             
 				<tbody>
-					{props.clients.map((client) => {
+					{props.incidents.map((client) => {
 						return (
 							<tr key={client.client_referrence.id}>
                                 
@@ -47,15 +50,20 @@ export default function DisplayClients(props) {
                                 </ReactModal>
                                 ||
 								<td>{client.employee_data_ref.location}</td> ||
-                                <td>{client.employee_data_ref.employee_title}</td> ||
+                                <td>{client.employee_data_ref.company}</td> ||
 								<td>{client.employee_data_ref.employee_title}</td> ||
 								<td><button onClick={(e)=>{props.deleteOnClick(e, client.id)}}>Delete Client</button></td>
 							</tr>
                         )
 					})}
-				</tbody>
-            
+				</tbody> 
+                
 			</table>
 		</div>
 	)
 }
+
+
+// { props.clients.length >= 0 ?
+// :  <h1>no clients available</h1>
+//                 }
