@@ -13,6 +13,7 @@ import Inbox from '../Inbox/inbox.js';
 // import EmployeeHome from '../EmployeeHome/employeeHome';
 import UserProfile from '../Profile/profile'
 
+const baseUrl = 'http://localhost:8000/api/v1/'
 
 function Check(props){
 
@@ -27,10 +28,20 @@ function Check(props){
       setIsLoggedIn(true)
     }
 
-    // 
+    const logout = () => {
+        fetch(baseUrl + 'users/logout', { credentials: 'include'})
+        .then(res => res.json())
+        .then(data => {
+          if (data.status === 200) {
+            setIsLoggedIn(false)
+            setActiveUser(null)
+          }
+        })
+      }
     
     useEffect (()=> {
         console.log(isLoggedIn)
+        
 
     })
 
@@ -40,7 +51,7 @@ function Check(props){
                 {
                     isLoggedIn ? 
                     <div>
-                    <NavBar />
+                    <NavBar user={activeUser} logout={logout}/>
                     <Main user={activeUser} isLoggedIn={isLoggedIn}/> 
                     </div>
 
@@ -64,10 +75,3 @@ function Check(props){
 }
 
 export default Check
-
-//<Route path='/employeeHome' element={<EmployeeHome />} />
-//<Route path='/clientHome' element={<ClientHome />} />
-
-//<Route path='/logout' element={<Logout />} />
-
-//<Route path='/adminHome' element={<AdminHome />} />

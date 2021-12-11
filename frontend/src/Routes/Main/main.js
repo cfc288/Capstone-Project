@@ -56,7 +56,7 @@ console.log('user on main', props.user)
         .then(data => {
           if (data.status === 200) {
             setIncidents(data.data)
-            console.log('data.data',data.data)
+            console.log('data.data', data.data)
             console.log('clients array', incidents)
           } 
         })
@@ -143,7 +143,8 @@ console.log('user on main', props.user)
         // console.log('clients delete route')
       }
 
- 
+      //update/edit client
+      //update/edit incident?
 
     return(
     <div>
@@ -189,16 +190,8 @@ console.log('user on main', props.user)
                
                 </div>
 
-
-
-
                 : <button onClick={()=> setShowForm(true)}> New client </button>
             }
-            
-            
-            
-           
-
 
             <h3>Click on the clients name to see or add incident reports</h3>
 
