@@ -32,8 +32,9 @@ console.log('isLoggedIn on main', props.isLoggedIn)
     const [clients, setClients] = useState([])
     const [showIncidentForm, setShowIncidentForm] = useState(false)
     const [newReport, setNewReport] = useState('')
-    const [selectClient, setSelectClient] = useState('')
     const [clientID, setClientID] = useState('')
+    const [selectClient, setSelectClient] = useState({})
+    const [selectClientId, setSelectClientID] = useState('')
 
  
     //#####
@@ -55,7 +56,6 @@ console.log('isLoggedIn on main', props.isLoggedIn)
     
     useEffect(() => {
         console.log('baseUrl+ incidents', baseUrl + 'incidents/')
-        
         fetch(baseUrl + 'clients/',
         {
             credentials: 'include'
@@ -79,28 +79,18 @@ console.log('isLoggedIn on main', props.isLoggedIn)
             setIncidents(data.data)
             console.log('data.data', data.data)
             console.log('incidents array(on use effect)', incidents)
-          } else {
-              console.log("no messages")
-          }
+          } 
         })
-
       }, [])
     //[] put into empty array (component did mount)
     //[clients] like ocmpnent did update
     
 
-    //ADD NEW CLIENT
+//ADD NEW CLIENT
     const addNewClient = (event) => {
         event.preventDefault() 
         const newClient = {
           name: newName,
-          // ^ client_referrence.name?
-          //client.employee_data_ref.location
-          //client.employee_data_ref.employee_title
-          //client.employee_data_ref.company
-          //?how to add employee info?
-          //
-
         }
         fetch(baseUrl + 'clients/', {
           method: 'POST',
@@ -123,27 +113,31 @@ console.log('isLoggedIn on main', props.isLoggedIn)
 
 //ADD NEW REPORT/INCIDENT
     const addNewReport = (event) => {
-    event.preventDefault() 
-    const newIncident = {
-        incident_event: newReport,
-    }
-    fetch(baseUrl + 'incidents/newincident/client/' + selectClient, {
-        method: 'POST',
-        body: JSON.stringify(newIncident, 
-            //flagged_for_review=false (this defaults false on backend, do i need?)
-            ),
-        headers: {
-        'Content-Type': 'application/json'
-        },
-        credentials: 'include'
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.status === 201) {   
-        const incidentsCopy = [...incidents, data.data]
-        setIncidents(incidentsCopy)
-        } 
-    })
+        event.preventDefault() 
+            console.log('selectClientID in addNewReport', selectClientId)
+            console.log('selectClient in addNewReport', selectClient)
+            console.log('clientID in addNewReport', clientID)
+            console.log('baseUrl + incidents/newincident/client/ + selectClient', baseUrl + 'incidents/newincident/client/' + selectClient)
+        const newIncident = {
+            incident_event: newReport,
+        }
+        fetch(baseUrl + 'incidents/newincident/client/' + selectClient, {
+            method: 'POST',
+            body: JSON.stringify(newIncident, 
+                //flagged_for_review=false (this defaults false on backend, do i need?)
+                ),
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === 201) {   
+            const incidentsCopy = [...incidents, data.data]
+            setIncidents(incidentsCopy)
+            } 
+        })
     }
 
 
@@ -201,29 +195,6 @@ console.log('isLoggedIn on main', props.isLoggedIn)
                                 <button onClick={()=> setShowForm(false)}>close form</button>
                                 </form> 
                             </div>
-                        {
-                            showIncidentForm ?
-                            <form onSubmit={addNewReport} isOpen={showIncidentForm}>
-                            <select value={selectClient} onChange={(e)=>{
-                                setSelectClient(e.target.value)
-                            }}> Select Client Here
-                                {
-                                    clients.map((client)=> {
-                                        return (
-                                            <option value={client.id}> {client.name} </option>
-                                        )
-                                    })
-                                }
-                                
-                            </select>
-                            <input id="report" type="text" name="report" value={newReport} onChange={(e) => setNewReport(e.target.value)} placeholder="Describe Incident Here"/>
-                        
-                            <input type="submit" value="Add Report"/><br />
-                            <button onClick={()=> setShowForm(false)}>close form</button>
-                        </form>
-                        : null
-                        }
-                    
                         </div>
 
                         : <button onClick={()=> setShowForm(true)}> New client </button>
@@ -268,6 +239,9 @@ console.log('isLoggedIn on main', props.isLoggedIn)
                                 filterIncidentsByClient(client.id).map((report) => {
                                 return (
                                     <tr key={report.client_referrence.id}>
+                                        <td>
+                                            {report.client_referrence.id}
+                                        </td>
                                         <td>
                                             {report.created_at}
                                         </td>
@@ -325,3 +299,28 @@ export default Main
             /> */}
 
 
+            // {
+            //     showIncidentForm ?
+            //         <form onSubmit={addNewReport} isOpen={showIncidentForm}>
+                    
+
+            //     <select value={selectClient} onChange={(e)=>{
+            //         setSelectClient(e.target.value)
+            //     }}> Select Client Here
+            //         {
+            //             clients.map((client)=> {
+            //                 return (
+            //                     <option value={client.id}> {client.name} </option>
+            //                 )
+            //             })
+            //         }                                
+            //     </select>
+
+
+            //             <input id="report" type="text" name="report" value={newReport} onChange={(e) => setNewReport(e.target.value)} placeholder="Describe Incident Here"/>
+                    
+            //             <input type="submit" value="Add Report" onClick={(e)=>{setSelectClientID(selectClient.id)}}/><br />
+            //             <button onClick={()=> setShowForm(false)}>close form</button>
+            //         </form>
+            // : null
+            // }

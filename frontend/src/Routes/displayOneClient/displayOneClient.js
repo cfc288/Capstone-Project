@@ -8,8 +8,9 @@ export default function DisplayOneClient(props) {
   //incidents={incidents}
   // deleteClientOnClick={props.deleteOnClick} 
   // newReport={addNewReport}
-	//console.log('props.clientID on displayOneClient', props.clientId)
-  //console.log('props.client on displayOneClient', props.client[0].id)
+	console.log('props.clientID on displayOneClient', props.clientId)
+  console.log('props.client on displayOneClient', props.client[0].id)
+  console.log('baseUrl + incidents', baseUrl + 'incidents/allreportsperclient/' + props.clientId )
   // console.log('props.report on displayOneClient',props.incidents)
   console.log('user', props.user )
   const [allReports, setReports] = useState([])
@@ -51,7 +52,7 @@ export default function DisplayOneClient(props) {
 //create/ADD NEW REPORT
 const addNewReport = (event, id) => {
   event.preventDefault() 
-  console.log('client id?', props.client.client_referrence.id)
+  console.log('client id?', props.clientId)
   const newIncident = {
       incident_event: newReport,
   }
@@ -204,7 +205,7 @@ const passID = (id) => {
 
         {
           showForm ?
-        <form onSubmit={(e)=>{addNewReport(e, props.client.client_referrence.id)}} isOpen={showForm}>
+        <form onSubmit={(e)=>{addNewReport(e, props.clientId)}} isOpen={showForm}>
         
         <input id="report" type="text" name="report" value={newReport} onChange={(e) => setNewReport(e.target.value)} placeholder="Please describe incident here"/>
 				

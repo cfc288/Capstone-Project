@@ -16,24 +16,32 @@ incidents = Blueprint('incidents', 'incidents')
 @login_required
 def main_incidents_index():
     result = models.Incident.select()
+    print('result = models.Incident.select(): ', result)
 
     incident_dicts = [model_to_dict(incident) for incident in result]
-    for incident_dict in incident_dicts:
-        incident_dict['employee_data_ref'].pop('password')
-    print('incident_dicts', incident_dict)
-    return jsonify({
-    'data' : incident_dicts, 
-    'message' : f'Successfully found {len(incident_dicts)} incident reports',
-    'status': 200
-    })  
+    try:
+        for incident_dict in incident_dicts:
+            incident_dict['employee_data_ref'].pop('password')
+            print('incident_dicts', incident_dict)
+    except:
+        print('something went wrong')
+    finally:
+        return jsonify({
+        'data' : incident_dicts, 
+        'message' : f'Successfully found {len(incident_dicts)} incident reports',
+        'status': 200
+        })  
 
-###################
+
+
+####################################################################
 
 #GET route for per user
 @incidents.route('/allreportsperuser', methods=['GET'])
 @login_required
 def index_per_user():
-    # result = models.Incident.select()
+    result = models.Incident.select()
+    print('result = models.Client.select():', result)
     current_user_incident_dicts = [model_to_dict(incident) for incident in current_user.employee_ref]
 
     for incident_dict in current_user_incident_dicts:
