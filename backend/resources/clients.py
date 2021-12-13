@@ -77,7 +77,7 @@ def get_one_clients(id):
 
 
 # PUT UPDATE ROUTE
-# PUT api/v1/dogs/<id>
+# PUT api/v1/clients/<id>
 @clients.route('<id>', methods=['PUT'])
 def update_client(id):
     payload = request.get_json()
@@ -110,5 +110,5 @@ def delete_client(id):
     return jsonify(
         data={},
         message=f"Successfully deleted {nums_of_rows_deleted} client with id {id}",
-        satus=200
+        status=200
     ), 200   

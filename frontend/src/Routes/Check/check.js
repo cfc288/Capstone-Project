@@ -4,7 +4,7 @@ import Login from '../Login/login.js';
 import Main from '../Main/main.js';
 import App from '../App';
 
-import { BrowserRouter as Router, Switch, Link, Routes, Route} from 'react-router-dom';
+
 
 import NavBar from '../NavBar/NavBar.js'
 import About from '../About/about.js';
@@ -20,8 +20,53 @@ function Check(props){
     
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [activeUser, setActiveUser] = useState({});
+    const [showMain, setShowMain] = useState(true)
+    const [messages, setMessages] = useState([])
+    const [showAbout, setShowAbout] = useState(false)
+    const [showInbox, setShowInbox] = useState(false)
     
-    
+
+
+
+//-------------------------------
+    const closeInbox = (e) => {
+        e.preventDefault()
+        setShowInbox(false)
+    }
+
+    const openInbox = (e) => {
+        e.preventDefault()
+        setShowInbox(true)
+        setShowMain(false)
+        setShowAbout(false)
+    }
+//-------------------------------
+    const closeAbout = (e) => {
+        e.preventDefault()
+        setShowAbout(false)
+    }
+
+    const openAbout = (e) => {
+        e.preventDefault()
+        setShowAbout(true)
+        setShowMain(false)
+        setShowInbox(false)
+    }
+
+//-----------------------------
+    const closeMain = (e) => {
+        e.preventDefault()
+        setShowMain(false)
+        // setShowAbout(false)
+    }
+
+    const openMain = (e) => {
+        e.preventDefault()
+        setShowMain(true)
+        setShowAbout(false)
+        setShowInbox(false)
+    }
+//----------------------------
     
     const logIn = (user) => {
       setActiveUser(user)
@@ -47,31 +92,113 @@ function Check(props){
 
     return(
         <div >
-                <div >
+            <div >
                 {
                     isLoggedIn ? 
-                    <div>
-                    <NavBar user={activeUser} logout={logout}/>
-                    <Main user={activeUser} isLoggedIn={isLoggedIn}/> 
-                    </div>
+                        <div>
+                            <NavBar 
+                            logout={logout} 
+                            user={activeUser} 
+                            isLoggedIn={isLoggedIn}
+                            closeMain={closeMain}
+                            closeAbout={closeAbout}
+                            showAbout={showAbout}
+                            showMain={showMain} 
+                            showInbox={showInbox}
+                            openInbox={openInbox}
+                            openAbout={openAbout}
+                            openMain={openMain}
+                            />
 
-                    
+                                    <div>
+                                        
+                                        <div>
+                                            { showMain ?
+                                                <Main 
+                                                    user={activeUser} 
+                                                    isLoggedIn={isLoggedIn} 
+                                                    showMain={showMain}
+                                                    showAbout={showAbout}
+                                                    showInbox={showInbox}
+                                                    openInbox={openInbox}
+                                                    openAbout={openAbout}
+                                                    openMain={openMain}
+                                                />
+                                            : <p> showMain is false</p>
+                                            }
+                                        </div>
+
+                                        <div>
+                                            { showAbout ? 
+                                                <About 
+                                                    user={activeUser} 
+                                                    isLoggedIn={isLoggedIn}
+                                                    showMain={showMain}
+                                                    showAbout={showAbout}
+                                                    showInbox={showInbox}
+                                                    openInbox={openInbox}
+                                                    openAbout={openAbout}
+                                                    openMain={openMain}
+                                                />
+                                            : <p>showAbout is false</p>
+                                            }
+                                        </div>
+
+                                        <div>
+                                            { showInbox ? 
+                                                <Inbox 
+                                                    user={activeUser} 
+                                                    isLoggedIn={isLoggedIn}
+                                                    showMain={showMain}
+                                                    showAbout={showAbout}
+                                                    showInbox={showInbox}
+                                                    openInbox={openInbox}
+                                                    openAbout={openAbout}
+                                                    openMain={openMain}
+                                                />
+                                            : <p>showInbox is false </p>
+                                            }
+                                        </div>
+
+                                    </div>   
+                        </div>                    
                     : <App logIn={logIn}  isLoggedIn={isLoggedIn}/> 
                 }
-                </div>
 
-                <div>
-                        <Routes> 
-                            <Route path='/()' />
-                            <Route path='/about' element={<About />} />
-                            <Route path='/inbox' element={<Inbox user={activeUser} />} />
-                        </Routes>
-                </div>
-
-        
-            
+            </div>
         </div>
     )
 }
 
 export default Check
+
+
+
+
+{/* <div>
+                        <Routes> 
+                            <Route path='/()' 
+                                user={activeUser} 
+                                isLoggedIn={isLoggedIn}
+                                showMain={showMain}
+                                showAbout={showAbout}
+                                showInbox={showInbox}
+                            />
+
+                            <Route path='/about' 
+                                element={
+                                    <About 
+                                    
+                                    />
+                                } 
+                            />
+
+                            <Route path='/inbox' 
+                                element={
+                                    <Inbox 
+                                    
+                                    />
+                                } 
+                            />
+                        </Routes>
+                </div> */}

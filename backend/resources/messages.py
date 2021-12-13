@@ -32,7 +32,7 @@ def main_index():
 @login_required
 def index_per_user_messages():
     
-    current_user_message_dicts = [model_to_dict(incident) for incident in current_user.sender]
+    current_user_message_dicts = [model_to_dict(message) for message in current_user.reciever]
 
     for message_dict in current_user_message_dicts:
         print('incident_dict (in /allreportsperuser): ', message_dict)
@@ -44,7 +44,7 @@ def index_per_user_messages():
         message_dict['reciever'].pop('password')
         #message_dict['reciever'].pop('username')
         message_dict['reciever'].pop('email')
-
+        print('current_user_message_dicts',current_user_message_dicts)
     
     return jsonify({
         'data': current_user_message_dicts,

@@ -29,7 +29,7 @@ const closeModal =() => {
 }
 
 useEffect (()=> {
-  console.log('props.isloggedin', props.isLoggedIn)
+  console.log('props.isloggedin on App.js', props.isLoggedIn)
   
 })
 

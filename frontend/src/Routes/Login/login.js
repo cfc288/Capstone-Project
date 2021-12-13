@@ -26,6 +26,8 @@ function Login (props){
         e.preventDefault()
         const user = {email, password, username}
 
+        
+
         fetch(baseUrl + '/login', {
             method: 'Post',
             body: JSON.stringify(user),

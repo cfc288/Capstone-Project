@@ -64,6 +64,6 @@ export default function DisplayClients(props) {
 }
 
 
-// { props.clients.length >= 0 ?
+// { props.clients.length >= 1 ?
 // :  <h1>no clients available</h1>
 //                 }
