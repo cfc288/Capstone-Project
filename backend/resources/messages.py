@@ -13,17 +13,23 @@ messages = Blueprint('messages', 'messages')
 @messages.route('/', methods=['GET'])
 @login_required
 def main_index():
-    result = models.Messages.select()
+    try:
+        result = models.Messages.select()
 
-    message_dicts = [model_to_dict(message) for message in result]
-    # for message_dicts in message_dicts:
-    #     message_dicts['sender'].pop('password')
+        message_dicts = [model_to_dict(message) for message in result]
+        # for message_dicts in message_dicts:
+        #     message_dicts['sender'].pop('password')
 
-    return jsonify({
-    'data' : message_dicts, 
-    'message' : f'Successfully found {len(message_dicts)} incident reports',
-    'status': 200
-    })  
+        return jsonify({
+        'data' : message_dicts, 
+        'message' : f'Successfully found {len(message_dicts)} incident reports',
+        'status': 200
+        }) 
+    except models.DoesNotExist:
+        return jsonify ({
+            'message' : 'unable to comply'
+        }) 
+
 
 #######################################
 

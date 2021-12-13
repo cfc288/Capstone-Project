@@ -18,7 +18,7 @@ function Inbox (props) {
     const [display, setDisplay] = useState(false)
     const [openNewMessage, setOpenNewMessages] = useState(false)
 
-    const [messages, setMessages] = useState([])
+    const [allUserMessages, setAllUserMessages] = useState([])
 
 
  //---------------------------   
@@ -44,41 +44,33 @@ function Inbox (props) {
         .then(data => {
             if (data.status === 200) {
                 // const copyMessages = [data.data]
-                setMessages(data.data)
+                setAllUserMessages(data.data)
                 console.log('data.data, inside',data.data)
-                console.log('messages inside', messages)
+                console.log('messages inside', allUserMessages)
             } 
-            console.log('messages on Inbox, outside', messages)
+            console.log('messages on Inbox, outside', allUserMessages)
         }) 
     }, []) 
 
-//CREATE/NEW MESSAGE/Send
-// const newMessage = (event, id) => {
-//     event.preventDefault() 
-//     console.log('reciever id?', props.client.client_referrence.id)
-//     const newIncident = {
-//         incident_event: newReport,
-//     }
-//     fetch(baseUrl + 'incidents/newincident/client/' + id, {
-//         method: 'POST',
-//         body: JSON.stringify(newIncident, 
-//             ),
-//         headers: {
-//         'Content-Type': 'application/json'
-//         },
-//         credentials: 'include'
-//     })
-//     .then(res => res.json())
-//     .then(data => {
-//         if (data.status === 201) {   
-//         const reportsCopy = [...allReports, data.data]
-//         setReports(reportsCopy)
-//         } 
-//     })
-//     }
 
-//setRecieverID?
-
+//delete message
+const deleteMessageOnClick = (e, id) => {
+    e.preventDefault()
+    fetch(baseUrl + 'incidents' + `/${id}`, {
+      method: 'DELETE',
+      credentials: 'include'
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === 200) {
+        const messagesCopy = [...allUserMessages]
+        const foundIndex = messagesCopy.findIndex((message) => message.id === id)
+        messagesCopy.splice(foundIndex, 1)
+        setAllUserMessages(messagesCopy)
+      }
+    })
+    //console.log('report delete route')
+  }
 
 
     return (
@@ -116,24 +108,25 @@ function Inbox (props) {
 
                         <div>
                             <table >
-                                {messages.map((message)=>{
-                                    return (
-                                        <tbody key={message.id}>
-                                            <tr>
-                                                <td>Sent by:</td>
-                                                <td> {message.reciever.username} </td>
-                                                <td> </td>
-                                                
-                                            </tr>
-                                            <tr>
-                                                <td>{message.message}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <button> Delte Message</button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
+                                { 
+                                    allUserMessages.map((message)=>{
+                                        return (
+                                            <tbody key={message.id}>
+                                                <tr>
+                                                    <td>Sent by:</td>
+                                                    <td> {message.reciever.username} </td>
+                                                    <td> </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                    <td>{message.message}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <button onClick={(e)=>{deleteMessageOnClick(e, message.id)}}> Delte Message</button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
                                                 )
                                         })}
                                         

@@ -55,6 +55,7 @@ console.log('isLoggedIn on main', props.isLoggedIn)
     
     useEffect(() => {
         console.log('baseUrl+ incidents', baseUrl + 'incidents/')
+        
         fetch(baseUrl + 'clients/',
         {
             credentials: 'include'
@@ -78,8 +79,11 @@ console.log('isLoggedIn on main', props.isLoggedIn)
             setIncidents(data.data)
             console.log('data.data', data.data)
             console.log('incidents array(on use effect)', incidents)
-          } 
+          } else {
+              console.log("no messages")
+          }
         })
+
       }, [])
     //[] put into empty array (component did mount)
     //[clients] like ocmpnent did update
@@ -264,9 +268,6 @@ console.log('isLoggedIn on main', props.isLoggedIn)
                                 filterIncidentsByClient(client.id).map((report) => {
                                 return (
                                     <tr key={report.client_referrence.id}>
-                                        <td>
-                                            {report.client_referrence.id}
-                                        </td>
                                         <td>
                                             {report.created_at}
                                         </td>

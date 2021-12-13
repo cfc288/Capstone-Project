@@ -1,32 +1,34 @@
 import React, { Component, useState, useEffect } from 'react'
 import Register from '../Register/register'
 import ReactModal from 'react-modal';
-
+import About from '../About/about';
 
 const baseUrl = 'http://localhost:8000/api/v1/users'
 
 function Login (props){
     //logIn={props.logIn}
-
-    const [display, setDisplay] = useState(false)
-    const openModal = () => {
-        setDisplay(true)
-      }
-    const closeModal =() => {
-    setDisplay(false)
-    }
-
-
     const[email, setEmail] = useState('')
     const[username, setUsername] = useState('')
     const[password, setPassword] = useState('')
+
+//--------------------------
+    const [display, setDisplay] = useState(false)
+    const openModal = () => {
+        setDisplay(true)
+    }
+    const closeModal =() => {
+    setDisplay(false)
+}
+//----------------------------
+
+
+
+
 
 
     const fetchLogin = (e) => {
         e.preventDefault()
         const user = {email, password, username}
-
-        
 
         fetch(baseUrl + '/login', {
             method: 'Post',
@@ -59,6 +61,7 @@ function Login (props){
     
         return (
             <div>
+                
                 <h1> Login/Register Modal</h1>
 
                 
